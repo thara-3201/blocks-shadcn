@@ -1,4 +1,4 @@
-import { MultiStepFormData } from './components/MultiStepForm';
+import { MultiStepFormData } from './components/ui/StepForm';
 import { motion } from "framer-motion";
 import { Separator } from "@/components/ui/separator";
 import { Poll, PollDescription, PollFooter, PollHeader, PollOptions, PollReset, PollTitle, PollVoteInfo } from './components/ui/QuickPollBlocks';
@@ -8,6 +8,7 @@ import { Textarea } from './components/ui/textarea';
 import { Label } from './components/ui/label';
 import { RadioGroup, RadioGroupItem } from './components/ui/radio-group';
 import { Switch } from './components/ui/switch';
+import { Badge } from './components/ui/badge';
 
 // =====================================================================
 // Showcase (Preview)
@@ -27,6 +28,10 @@ function App() {
 
   return (
     <div className="mx-auto grid w-full max-w-5xl gap-8 p-6 md:p-10">
+      <h2 className="mb-3 text-xl font-semibold tracking-tight">Multi‑step Form</h2>
+      <p className="mb-4 text-sm text-muted-foreground">
+        Animated multi-step wizard with two types of progress bar.
+      </p>
       <MultiStepForm
         initialData={{
           name: "",
@@ -36,7 +41,7 @@ function App() {
           newsletter: true,
           budget: "Undecided",
         }}
-        formHeading='Animated wizard 4-step wizard'
+        formHeading='Animated wizard 4-step wizard With Line Progress bar'
         steps={[
           {
             id: "0", label: "Your details", content: <Step0Content />
@@ -58,8 +63,45 @@ function App() {
       />
 
       <Separator />
+      <MultiStepForm
+        initialData={{
+          name: "",
+          email: "",
+          projectName: "",
+          projectDesc: "",
+          newsletter: true,
+          budget: "Undecided",
+        }}
+        formHeading='Animated wizard 4-step wizard - With each steps label Progress bar'
+        steps={[
+          {
+            id: "0", label: "Your details", content: <Step0Content />
+          },
+          {
+            id: "1", label: "Project", content: <Step1Content />
+          },
+          {
+            id: "2", label: "Preferences", content: <Step2Content />
+          },
+          {
+            id: "3", label: "Review", content: <Step3Content />
+          }
+        ]}
+        onSubmit={(data) => console.log(data)}
+        progressStyle="dots"
+        continueButtonLabel="Next"
+        submitButtonLabel="Finish"
+      />
+
+      <Separator />
+
+      <h2 className="mb-3 text-xl font-semibold tracking-tight">Quick Poll</h2>
+      <p className="mb-4 text-sm text-muted-foreground">
+        Lightweight poll with animated results with readOnly support also.
+      </p>
+
       <Poll
-        id="demo"
+        id="demo-reset"
         title="Favorite UI Library?"
         description="Pick one and see what others think."
         footer={
@@ -77,8 +119,14 @@ function App() {
       />
 
       <Separator />
+      <div className="flex items-center justify-between">
+        <Badge variant="outline" className="rounded-2xl">
+          Read Only
+        </Badge>
+      </div>
+
       <Poll
-        id="demo"
+        id="demo-readonly"
         options={[
           { id: "glass", label: "Glassmorphism", votes: 5 },
           { id: "bento", label: "Bento grids", votes: 2 },

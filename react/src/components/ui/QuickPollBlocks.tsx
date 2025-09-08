@@ -101,7 +101,7 @@ export function Poll({
         >
             <div
                 className={cn(
-                    "w-full max-w-xl rounded-2xl border bg-card p-6 shadow-sm",
+                    "w-full max-w-xl mx-auto rounded-2xl border bg-card p-6 shadow-sm",
                     className
                 )}
             >

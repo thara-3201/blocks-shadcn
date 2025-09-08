@@ -14,6 +14,15 @@ export type Step<T = any> = {
     skip?: boolean; // user-controlled skipping
 };
 
+export type MultiStepFormData = {
+  name: string;
+  email: string;
+  projectName: string;
+  projectDesc: string;
+  newsletter: boolean;
+  budget: "<$1k" | "$1k–$5k" | ">$5k" | "Undecided";
+};
+
 export type MultiStepFormProps<T = any> = {
     steps: Step<T>[];
     formHeading: string;
