@@ -71,14 +71,15 @@ function App() {
         description="Pick one and see what others think."
         footer={
           <PollFooter>
-            <PollVoteInfo />
-            <PollReset />
+              <PollVoteInfo />
+              <PollReset />
           </PollFooter>
         }
         options={[
-          { id: "react", label: "React" },
-          { id: "vue", label: "Vue" },
-          { id: "svelte", label: "Svelte" },
+          { id: "glass", label: "Glassmorphism", votes: 5 },
+          { id: "bento", label: "Bento grids", votes: 2 },
+          { id: "neobrut", label: "Neo‑brutalism", votes: 2 },
+          { id: "minimal", label: "Ultra minimal", votes: 1 },
         ]}
       />
 
@@ -87,11 +88,12 @@ function App() {
         id="demo"
         options={[
           { id: "glass", label: "Glassmorphism", votes: 5 },
-            { id: "bento", label: "Bento grids", votes: 2 },
-            { id: "neobrut", label: "Neo‑brutalism", votes: 2 },
-            { id: "minimal", label: "Ultra minimal", votes: 1 },
+          { id: "bento", label: "Bento grids", votes: 2 },
+          { id: "neobrut", label: "Neo‑brutalism", votes: 2 },
+          { id: "minimal", label: "Ultra minimal", votes: 1 },
         ]}
         showResultsBeforeVote={true}
+        readOnly
       >
         <PollHeader>
           <PollTitle>Favorite UI Library?</PollTitle>
@@ -101,7 +103,7 @@ function App() {
         <PollOptions />
 
         <PollFooter>
-          <PollVoteInfo />
+          {/* <PollVoteInfo /> */}
           <PollReset />
         </PollFooter>
       </Poll>

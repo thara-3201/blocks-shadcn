@@ -20,6 +20,7 @@ interface PollContextValue {
     selected: string | null;
     allowRevote: boolean;
     showResultsBeforeVote: boolean;
+    readOnly: boolean;
     vote: (id: string) => void;
     reset: () => void;
 }
@@ -46,6 +47,7 @@ interface PollProps {
     footer?: React.ReactNode;
     children?: React.ReactNode;
     className?: string;
+    readOnly?: boolean;
 }
 
 export function Poll({
@@ -59,6 +61,7 @@ export function Poll({
     footer,
     children,
     className,
+    readOnly = false,
 }: PollProps) {
     const [options, setOptions] = React.useState(initialOptions);
     const [selected, setSelected] = React.useState<string | null>(null);
@@ -91,6 +94,7 @@ export function Poll({
                 selected,
                 allowRevote,
                 showResultsBeforeVote,
+                readOnly,
                 vote,
                 reset,
             }}
@@ -118,12 +122,10 @@ export function Poll({
                 {/* Props-driven footer */}
                 <AnimatePresence initial={false} mode="wait">
                     {footer && (
-
                         <motion.div
                             initial={{ opacity: 0, y: 4 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.35, ease: "easeOut" }}
-                            className="inline-flex items-center gap-1"
                         >
                             {footer}
                         </motion.div>
@@ -147,7 +149,9 @@ export function PollTitle({ children }: { children: React.ReactNode }) {
 
 export function PollDescription({ children }: { children: React.ReactNode }) {
     return (
-        <p className="text-sm text-muted-foreground leading-snug">{children}</p>
+        <p className="text-sm text-muted-foreground leading-snug">
+            {children}
+        </p>
     );
 }
 
@@ -185,7 +189,13 @@ interface PollOptionProps {
 }
 
 export function PollOption({ id, children, className }: PollOptionProps) {
-    const { vote, selected, hasVoted, total, showResultsBeforeVote, options } =
+    const { vote,
+        selected,
+        hasVoted,
+        total,
+        showResultsBeforeVote,
+        options,
+        readOnly } =
         usePoll();
 
     const optionData = options.find(o => o.id === id);
@@ -196,11 +206,12 @@ export function PollOption({ id, children, className }: PollOptionProps) {
 
     return (
         <button
-            onClick={() => vote(id)}
-            disabled={hasVoted && !isSelected}
+            onClick={() => !readOnly && vote(id)}
+            disabled={readOnly || (hasVoted && !isSelected)}
             className={cn(
                 "relative w-full rounded-xl border p-3 text-left transition-colors",
                 "hover:bg-muted/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                className,
                 isSelected && "border-primary bg-primary/5"
             )}
             aria-pressed={isSelected}
@@ -235,9 +246,11 @@ export function PollOption({ id, children, className }: PollOptionProps) {
 // --------------------
 // Footer components
 // --------------------
-export function PollFooter({ children }: { children: React.ReactNode }) {
+export function PollFooter({ children, className }: { children: React.ReactNode, className?: string }) {
     return (
-        <div className="mt-4 flex items-center justify-between">{children}</div>
+        <div className={cn("mt-4 flex items-center justify-between", className)}>
+            {children}
+        </div>
     );
 }
 
